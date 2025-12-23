@@ -22,43 +22,43 @@ const WeddingParty = () => {
             name: "Isabella Garcia",
             role: "Bridesmaid",
             description: "The one who makes every gathering brighter with her energy and kindness.",
-            photo: "https://i.pinimg.com/originals/3e/4f/4d/3e4f4d8e9b0f7a5d8f0e9a2b3c4d5e6f.jpg" // Sage green bridesmaid portrait
+            photo: "https://i.pinimg.com/originals/3e/4f/4d/3e4f4d8e9b0f7a5d8f0e9a2b3c4d5e6f.jpg"
         },
         {
             name: "Ava Thompson",
             role: "Bridesmaid",
             description: "Satya's confidante through thick and thin. Her support means the world.",
-            photo: "https://www.brides.com/thmb/9_9Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/sage-green-bridesmaid-dresses-5186590-005-1-0f0e9a2b3c4d5e6f.jpg" // Another elegant sage green dress
+            photo: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3602511132549595587"
         }
     ];
 
     const groomsmen = [
         {
-            name: "Michael Thompson",
+            name: "Ahmad Alafandi",
             role: "Best Man",
             description: "Abdulrazak's brother and closest confidant. The one who knows all the stories.",
             photo: "https://www.friartux.com/on/demandware.static/-/Sites-FriarTux-Library/default/dw37f09937/images/blog/blog2339/18.jpg"
         },
         {
-            name: "James Wilson",
+            name: "Ammar Etaki",
             role: "Groomsman",
             description: "Longtime friend and travel companion. Always up for celebration.",
             photo: "https://media-api.xogrp.com/images/02c554a2-9be5-42d0-a62a-506be2abb6c6"
         },
         {
-            name: "David Lee",
+            name: "zakarya Alhasan",
             role: "Groomsman",
             description: "The calm in every storm. Grateful to have him by our side.",
             photo: "https://apis.xogrp.com/media-api/images/d0a065aa-1938-11e5-be0a-22000aa61a3e"
         },
         {
-            name: "Christopher Brown",
+            name: "Coen De Groot",
             role: "Groomsman",
             description: "The life of the party and Abdulrazak's trusted wingman for years.",
-            photo: "https://www.gentlemansgazette.com/wp-content/uploads/2015/05/Navy-Suit-with-Light-Blue-Shirt-and-Burgundy-Tie.jpg" // Navy suit portrait
+            photo: "https://www.gentlemansgazette.com/wp-content/uploads/2015/05/Navy-Suit-with-Light-Blue-Shirt-and-Burgundy-Tie.jpg"
         },
         {
-            name: "Daniel Rodriguez",
+            name: "",
             role: "Groomsman",
             description: "Brother in spirit, always ready with wisdom and a smile.",
             photo: "https://i.pinimg.com/originals/8b/8b/8b/8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b.jpg" // Sharp navy groom party portrait
