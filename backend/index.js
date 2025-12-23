@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 const mysql = require("mysql2/promise");
 
 const app = express();
+app.set("trust proxy", 1);
 
 // -------------------- Security + parsing --------------------
 app.use(helmet());
