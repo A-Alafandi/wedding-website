@@ -1,34 +1,40 @@
+import britt from '../../assets/bridesmaids/b.jpg';
+import khadija from '../../assets/bridesmaids/k.jpg';
+import josephine from '../../assets/bridesmaids/j.jpg';
+import vaiola from '../../assets/bridesmaids/v.jpg';
+import faten from '../../assets/bridesmaids/f.jpg';
+
 const WeddingParty = () => {
     const bridesmaids = [
         {
-            name: "Emma Johnson",
+            name: "Vaiola ",
             role: "Maid of Honor",
             description: "Satya's sister and lifelong best friend. Always there with love and laughter.",
-            photo: "https://www.frenchweddingstyle.com/wp-content/uploads/2023/02/Darby-Mitchell-Photography-2-2.jpg"
+            photo: vaiola
         },
         {
-            name: "Sophia Martinez",
+            name: "josephine",
             role: "Bridesmaid",
             description: "College roommate who turned into family. Brings joy to every moment.",
-            photo: "https://www.theknot.com/tk-media/images/55f5bd7f-54a4-4d2a-9e0f-439a824dbc2c"
+            photo: josephine
         },
         {
-            name: "Olivia Chen",
+            name: "Britt",
             role: "Bridesmaid",
             description: "Adventure partner and voice of reason. Can't imagine this day without her.",
-            photo: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3602511132549595587"
+            photo:britt
         },
         {
-            name: "Isabella Garcia",
+            name: "Khadija",
             role: "Bridesmaid",
             description: "The one who makes every gathering brighter with her energy and kindness.",
-            photo: "https://i.pinimg.com/originals/3e/4f/4d/3e4f4d8e9b0f7a5d8f0e9a2b3c4d5e6f.jpg"
+            photo: khadija
         },
         {
-            name: "Ava Thompson",
+            name: "Faten",
             role: "Bridesmaid",
             description: "Satya's confidante through thick and thin. Her support means the world.",
-            photo: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3602511132549595587"
+            photo: faten
         }
     ];
 
@@ -58,10 +64,10 @@ const WeddingParty = () => {
             photo: "https://www.gentlemansgazette.com/wp-content/uploads/2015/05/Navy-Suit-with-Light-Blue-Shirt-and-Burgundy-Tie.jpg"
         },
         {
-            name: "",
+            name: "Omar Ali",
             role: "Groomsman",
             description: "Brother in spirit, always ready with wisdom and a smile.",
-            photo: "https://i.pinimg.com/originals/8b/8b/8b/8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b.jpg" // Sharp navy groom party portrait
+            photo: ""
         }
     ];
 
