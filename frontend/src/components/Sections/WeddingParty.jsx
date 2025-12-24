@@ -70,7 +70,7 @@ const WeddingParty = () => {
             <div className="container mx-auto px-6 max-w-7xl">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-navy mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-green mb-4">
                         Wedding Party
                     </h2>
                     <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">
@@ -81,10 +81,10 @@ const WeddingParty = () => {
                 {/* For the Bride */}
                 <div className="mb-20">
                     <div className="text-center mb-12">
-                        <h3 className="text-3xl md:text-4xl font-serif text-wedding-navy mb-4">
+                        <h3 className="text-3xl md:text-4xl font-serif text-wedding-gold mb-4">
                             For the Bride
                         </h3>
-                        <div className="w-32 h-1 bg-wedding-green mx-auto rounded-full"></div>
+                        <div className="w-32 h-1 bg-wedding-gold mx-auto rounded-full"></div>
                     </div>
 
                     <div className="grid md:grid-cols-5 gap-8">
@@ -115,7 +115,7 @@ const WeddingParty = () => {
                 {/* For the Groom */}
                 <div>
                     <div className="text-center mb-12">
-                        <h3 className="text-3xl md:text-4xl font-serif text-wedding-navy mb-4">
+                        <h3 className="text-3xl md:text-4xl font-serif text-wedding-gold mb-4">
                             For the Groom
                         </h3>
                         <div className="w-32 h-1 bg-wedding-gold mx-auto rounded-full"></div>

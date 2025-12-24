@@ -160,10 +160,6 @@ export default function RSVP() {
                         </div>
                     ) : null}
                 </form>
-
-                <p style={{ marginTop: "1rem", fontSize: 12, opacity: 0.8 }}>
-                    API: <code>{API_URL || "(not set)"}</code>
-                </p>
             </div>
         </section>
     );

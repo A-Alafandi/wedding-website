@@ -4,7 +4,7 @@ const Details = () => {
             <div className="container mx-auto px-6 max-w-6xl">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-navy mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-wedding- mb-4">
                         Wedding Details
                     </h2>
                     <p className="text-gray-600 text-lg font-light max-w-2xl mx-auto">

@@ -47,7 +47,7 @@ const Hero = () => {
                 <div className="flex items-center justify-center gap-4 text-lg sm:text-xl font-bold mb-12 opacity-90">
                     <time dateTime="2026-08-08">August 8, 2026</time>
                     <span className="w-2 h-2 bg-wedding-gold rounded-full" />
-                    <span>Masaya Restauran</span>
+                    <span>Masaya Restaurant</span>
                 </div>
 
                 <Countdown />

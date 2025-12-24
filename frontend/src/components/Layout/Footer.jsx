@@ -1,5 +1,5 @@
 const Footer = () => {
-    const weddingDate = new Date('2026-08-08');
+    const weddingDate = new Date('2026-08-09');
 
     return (
         <footer className="bg-wedding-navy text-white py-12">
@@ -8,10 +8,10 @@ const Footer = () => {
                     {/* Couple Info */}
                     <div className="text-center md:text-left">
                         <h3 className="text-3xl font-cursive text-wedding-gold mb-4">
-                            Satya & Abdulrazak
+                            Satya & Abdul
                         </h3>
                         <p className="text-wedding-ivory/80">
-                            Getting married on {weddingDate.toLocaleDateString('en-US', {
+                            Getting married on { weddingDate.toLocaleDateString('en-US', {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
@@ -53,9 +53,6 @@ const Footer = () => {
                 <div className="mt-8 pt-8 border-t border-wedding-ivory/20 text-center">
                     <p className="text-wedding-ivory/60">
                         Made with ❤️ for our special day • {new Date().getFullYear()}
-                    </p>
-                    <p className="text-wedding-ivory/40 text-sm mt-2">
-                        This website was built with React, Tailwind CSS, and MySQL
                     </p>
                 </div>
             </div>

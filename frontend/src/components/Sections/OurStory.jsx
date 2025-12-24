@@ -54,7 +54,7 @@ const OurStory = () => {
                         </div>
 
                         {/* Signature */}
-                        <p className="text-right text-xl md:text-2xl font-serif text-wedding-navy italic pt-8">
+                        <p className="text-right text-xl md:text-2xl font-serif text-wedding-green italic pt-8">
                             — Satya & Abdulrazak
                         </p>
                     </div>

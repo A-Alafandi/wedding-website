@@ -21,7 +21,7 @@ const Travel = () => {
             <div className="container mx-auto px-6 max-w-7xl">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-navy mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-green mb-4">
                         Travel & Accommodations
                     </h2>
                     <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">

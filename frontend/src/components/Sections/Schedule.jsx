@@ -52,7 +52,7 @@ const Schedule = () => {
             <div className="container mx-auto px-6 max-w-4xl">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-navy mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-green mb-4">
                         Schedule of Events
                     </h2>
                     <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">
@@ -88,10 +88,10 @@ const Schedule = () => {
 
                                         {/* Center icon & time */}
                                         <div className="w-1/2 flex flex-col items-center">
-                                            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white border-4 border-wedding-gold shadow-lg text-wedding-gold z-10">
+                                            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white border-4 border-wedding-green shadow-lg text-wedding-green z-10">
                                                 <Icon className="w-7 h-7" />
                                             </div>
-                                            <p className="mt-4 text-wedding-gold font-medium uppercase tracking-wider">
+                                            <p className="mt-4 text-wedding-navy font-medium uppercase tracking-wider">
                                                 {event.time}
                                             </p>
                                         </div>
