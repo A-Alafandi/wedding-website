@@ -4,10 +4,14 @@ import josephine from '../../assets/bridesmaids/j.jpg';
 import vaiola from '../../assets/bridesmaids/v.jpg';
 import faten from '../../assets/bridesmaids/f.jpg';
 
+import ammar2 from '../../assets/Groomsman/ammar2.jpeg';
+import ahmad from '../../assets/Groomsman/a.jpg';
+import ahmad1 from '../../assets/Groomsman/a1.jpg';
+
 const WeddingParty = () => {
     const bridesmaids = [
         {
-            name: "Vaiola ",
+            name: "Viola ",
             role: "Maid of Honor",
             description: "Satya's sister and lifelong best friend. Always there with love and laughter.",
             photo: vaiola
@@ -43,32 +47,32 @@ const WeddingParty = () => {
             name: "Ahmad Alafandi",
             role: "Best Man",
             description: "Abdulrazak's brother and closest confidant. The one who knows all the stories.",
-            photo: "https://www.friartux.com/on/demandware.static/-/Sites-FriarTux-Library/default/dw37f09937/images/blog/blog2339/18.jpg"
+            photo:ahmad
         },
         {
             name: "Ammar Etaki",
             role: "Groomsman",
             description: "Longtime friend and travel companion. Always up for celebration.",
-            photo: "https://media-api.xogrp.com/images/02c554a2-9be5-42d0-a62a-506be2abb6c6"
+            photo: ammar2
         },
         {
             name: "zakarya Alhasan",
             role: "Groomsman",
             description: "The calm in every storm. Grateful to have him by our side.",
-            photo: "https://apis.xogrp.com/media-api/images/d0a065aa-1938-11e5-be0a-22000aa61a3e"
+            photo: ahmad1
         },
-        {
-            name: "Coen De Groot",
-            role: "Groomsman",
-            description: "The life of the party and Abdulrazak's trusted wingman for years.",
-            photo: "https://www.gentlemansgazette.com/wp-content/uploads/2015/05/Navy-Suit-with-Light-Blue-Shirt-and-Burgundy-Tie.jpg"
-        },
-        {
-            name: "Omar Ali",
-            role: "Groomsman",
-            description: "Brother in spirit, always ready with wisdom and a smile.",
-            photo: ""
-        }
+        // {
+        //     name: "Coen De Groot",
+        //     role: "Groomsman",
+        //     description: "The life of the party and Abdulrazak's trusted wingman for years.",
+        //     photo: "https://www.gentlemansgazette.com/wp-content/uploads/2015/05/Navy-Suit-with-Light-Blue-Shirt-and-Burgundy-Tie.jpg"
+        // },
+        // {
+        //     name: "Omar Ali",
+        //     role: "Groomsman",
+        //     description: "Brother in spirit, always ready with wisdom and a smile.",
+        //     photo: ""
+        // }
     ];
 
     return (
@@ -134,7 +138,7 @@ const WeddingParty = () => {
                                     <img
                                         src={person.photo}
                                         alt={person.name}
-                                        className="w-full h-80 object-cover"
+                                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                         loading="lazy"
                                     />
                                 </div>

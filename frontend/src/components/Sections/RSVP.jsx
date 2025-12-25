@@ -3,35 +3,36 @@ import { useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function RSVP() {
-    const [name, setName] = useState("");
-    const [attending, setAttending] = useState(true);
-    const [guests, setGuests] = useState(0);
-    const [dietary, setDietary] = useState("");
-    const [message, setMessage] = useState("");
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        attending: "yes",
+        guests: 1,
+        plus_one_name: "",
+        song_request: "",
+        message: ""
+    });
 
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState({ type: "", text: "" });
+    const [error, setError] = useState("");
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        // Clear errors when user types
+        if (error) setError("");
+    };
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setStatus({ type: "", text: "" });
+        setError("");
 
-        if (!API_URL) {
-            setStatus({
-                type: "error",
-                text: "Missing VITE_API_URL. Create frontend/.env and restart the frontend.",
-            });
-            return;
-        }
+        if (!API_URL) return setError("Configuration error: API URL missing.");
 
-        if (!name.trim() || name.trim().length < 2) {
-            setStatus({ type: "error", text: "Please enter your name (min 2 characters)." });
-            return;
-        }
-
-        const guestsNum = Number(guests);
-        if (!Number.isFinite(guestsNum) || guestsNum < 0 || guestsNum > 10) {
-            setStatus({ type: "error", text: "Guests must be a number between 0 and 10." });
+        // Validation: If 2 guests selected, require the partner's name
+        if (Number(formData.guests) === 2 && formData.plus_one_name.trim().length < 2) {
+            setError("Please enter the full name of your plus one.");
             return;
         }
 
@@ -41,124 +42,204 @@ export default function RSVP() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: name.trim(),
-                    attending,
-                    guests: guestsNum,
-                    dietary: dietary.trim(),
-                    message: message.trim(),
+                    ...formData,
+                    attending: formData.attending === "yes",
+                    guests: Number(formData.guests)
                 }),
             });
 
             const data = await res.json().catch(() => ({}));
 
-            if (!res.ok) {
-                throw new Error(data?.message || "Something went wrong. Please try again.");
-            }
+            if (!res.ok) throw new Error(data?.message || "Something went wrong.");
 
-            setStatus({ type: "success", text: "Thanks! Your RSVP has been saved ✅" });
+            // Success! Show the Thank You view
+            setIsSubmitted(true);
+            window.scrollTo({ top: 0, behavior: "smooth" });
 
-            // Optional: clear form after success
-            setName("");
-            setAttending(true);
-            setGuests(0);
-            setDietary("");
-            setMessage("");
         } catch (err) {
-            setStatus({ type: "error", text: err.message || "Server error" });
+            setError(err.message || "Failed to send RSVP. Please try again.");
         } finally {
             setLoading(false);
         }
     }
 
+    // -------------------- RENDER: SUCCESS VIEW --------------------
+    if (isSubmitted) {
+        return (
+            <section className="min-h-screen bg-stone-50 py-20 px-4 flex items-center justify-center">
+                <div className="w-full max-w-lg bg-white rounded-3xl shadow-xl border-t-8 border-wedding-green p-12 text-center animate-fadeIn">
+                    <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                        <svg className="w-10 h-10 text-wedding-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h2 className="text-4xl font-serif text-wedding-navy mb-4">Thank You!</h2>
+                    <p className="text-gray-600 mb-8 font-serif text-lg">
+                        We have received your RSVP. <br />
+                        We can't wait to celebrate with you!
+                    </p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="text-wedding-green font-bold hover:underline"
+                    >
+                        Send another response
+                    </button>
+                </div>
+            </section>
+        );
+    }
+
+    // -------------------- RENDER: FORM VIEW --------------------
     return (
-        <section id="rsvp" style={{ padding: "2rem 1rem" }}>
-            <div style={{ maxWidth: 640, margin: "0 auto" }}>
-                <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>RSVP</h2>
+        <section id="rsvp" className="min-h-screen bg-stone-50 py-20 px-4 flex items-center justify-center">
+            <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border-t-8 border-wedding-green">
 
-                <form onSubmit={handleSubmit} style={{ display: "grid", gap: "0.75rem" }}>
-                    <label style={{ display: "grid", gap: 6 }}>
-                        <span>Your name</span>
+                {/* Header */}
+                <div className="pt-12 pb-8 text-center px-8 bg-white">
+                    <h2 className="text-4xl font-serif text-wedding-navy mb-3">RSVP</h2>
+                    <p className="text-gray-500 font-serif italic text-lg">Please respond by May 8, 2026</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="px-8 pb-12 space-y-5">
+
+                    {/* Error Banner */}
+                    {error && (
+                        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm text-center mb-4">
+                            {error}
+                        </div>
+                    )}
+
+                    {/* Full Name */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Your Name</label>
                         <input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Your full name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="First and Last Name"
                             required
-                            minLength={2}
-                            style={{ padding: "0.75rem", borderRadius: 10, border: "1px solid #ddd" }}
+                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
                         />
-                    </label>
+                    </div>
 
-                    <label style={{ display: "grid", gap: 6 }}>
-                        <span>Will you attend?</span>
-                        <select
-                            value={attending ? "yes" : "no"}
-                            onChange={(e) => setAttending(e.target.value === "yes")}
-                            style={{ padding: "0.75rem", borderRadius: 10, border: "1px solid #ddd" }}
-                        >
-                            <option value="yes">Yes, I’ll be there</option>
-                            <option value="no">No, I can’t make it</option>
-                        </select>
-                    </label>
-
-                    <label style={{ display: "grid", gap: 6 }}>
-                        <span>Number of guests</span>
+                    {/* Email */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Email Address</label>
                         <input
-                            type="number"
-                            value={guests}
-                            onChange={(e) => setGuests(e.target.value)}
-                            min={0}
-                            max={10}
-                            style={{ padding: "0.75rem", borderRadius: 10, border: "1px solid #ddd" }}
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="email@example.com"
+                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
                         />
-                    </label>
+                    </div>
 
-                    <label style={{ display: "grid", gap: 6 }}>
-                        <span>Dietary requirements</span>
+                    {/* Attending Selection */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Will you be attending?</label>
+                        <div className="relative">
+                            <select
+                                name="attending"
+                                value={formData.attending}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none appearance-none transition-all cursor-pointer"
+                            >
+                                <option value="yes">Yes, gratefully</option>
+                                <option value="no">No, regretfully</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+                                <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* DYNAMIC SECTION: Guests & Plus One */}
+                    <div className={`transition-all duration-500 ease-in-out overflow-hidden ${formData.attending === "yes" ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 pt-1">
+                            {/* Guest Count */}
+                            <div>
+                                <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Guests</label>
+                                <div className="relative">
+                                    <select
+                                        name="guests"
+                                        value={formData.guests}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none appearance-none transition-all cursor-pointer"
+                                    >
+                                        <option value="1">Just Me (1)</option>
+                                        <option value="2">Me + One (2)</option>
+                                    </select>
+                                    <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+                                        <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Plus One Name Input */}
+                            <div className={`transition-all duration-300 ${Number(formData.guests) === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}`}>
+                                <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Plus One Name</label>
+                                <input
+                                    name="plus_one_name"
+                                    value={formData.plus_one_name}
+                                    onChange={handleChange}
+                                    placeholder="Partner's Name"
+                                    // Only require if guest count is 2 to prevent HTML validation errors when hidden
+                                    required={Number(formData.guests) === 2}
+                                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Song Request */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Song Request</label>
                         <input
-                            value={dietary}
-                            onChange={(e) => setDietary(e.target.value)}
-                            placeholder="e.g., vegetarian, allergies..."
-                            style={{ padding: "0.75rem", borderRadius: 10, border: "1px solid #ddd" }}
+                            name="song_request"
+                            value={formData.song_request}
+                            onChange={handleChange}
+                            placeholder="I wanna dance with somebody..."
+                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
                         />
-                    </label>
+                    </div>
 
-                    <label style={{ display: "grid", gap: 6 }}>
-                        <span>Message (optional)</span>
+                    {/* Message */}
+                    <div>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-1">Message</label>
                         <textarea
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            rows={4}
-                            placeholder="Anything you want to share…"
-                            style={{ padding: "0.75rem", borderRadius: 10, border: "1px solid #ddd" }}
-                        />
-                    </label>
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            rows="2"
+                            placeholder="Leave a note for the couple..."
+                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all resize-none"
+                        ></textarea>
+                    </div>
 
+                    {/* Submit Button */}
                     <button
                         type="submit"
                         disabled={loading}
-                        style={{
-                            padding: "0.9rem 1rem",
-                            borderRadius: 12,
-                            border: "none",
-                            cursor: loading ? "not-allowed" : "pointer",
-                            fontWeight: 700,
-                        }}
+                        className={`w-full font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-[0.98] ${
+                            loading
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : "bg-wedding-green text-white hover:bg-wedding-navy hover:shadow-xl"
+                        }`}
                     >
-                        {loading ? "Saving..." : "Submit RSVP"}
+                        {loading ? (
+                            <span className="flex items-center justify-center gap-2">
+                                <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Sending...
+                            </span>
+                        ) : (
+                            "Send RSVP"
+                        )}
                     </button>
 
-                    {status.text ? (
-                        <div
-                            style={{
-                                padding: "0.75rem 1rem",
-                                borderRadius: 12,
-                                border: "1px solid #ddd",
-                                background: status.type === "success" ? "#f0fff4" : "#fff5f5",
-                            }}
-                        >
-                            {status.text}
-                        </div>
-                    ) : null}
                 </form>
             </div>
         </section>

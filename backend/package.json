@@ -15,6 +15,7 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.1.0",
-    "mysql2": "^3.14.4"
+    "mysql2": "^3.14.4",
+    "nodemailer": "^7.0.12"
   }
 }
