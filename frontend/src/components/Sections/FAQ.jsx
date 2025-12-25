@@ -42,28 +42,29 @@ const FAQ = () => {
     return (
         <section id="faq" className="py-24 bg-white">
             <div className="container mx-auto px-6 max-w-3xl">
-                {/* Header */}
+
+                {/* 1. Synced Header (Matches Travel & RSVP) */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-navy mb-4">
+                    <h2 className="text-4xl md:text-5xl font-bold text-wedding-green mb-4">
                         Frequently Asked Questions
                     </h2>
-                    <p className="text-lg text-gray-600 font-light">
-                        Everything you need to know.
+                    <p className="text-xl text-gray-500 font-light font-serif italic">
+                        Everything you need to know
                     </p>
                 </div>
 
                 {/* FAQ List */}
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {faqItems.map((item, index) => (
                         <div
                             key={index}
-                            className="border-b border-gray-200 pb-6 last:border-0"
+                            className="border-b border-gray-100 last:border-0"
                         >
                             <button
                                 onClick={() => toggleFAQ(index)}
-                                className="w-full text-left flex items-center justify-between py-4 group"
+                                className="w-full text-left flex items-center justify-between py-6 group hover:bg-stone-50/50 transition-colors px-4 -mx-4 rounded-xl"
                             >
-                                <h3 className="text-xl md:text-2xl font-serif text-wedding-navy pr-8 group-hover:text-wedding-green transition-colors">
+                                <h3 className={`text-xl font-serif pr-8 transition-colors duration-300 ${openIndex === index ? 'text-wedding-green' : 'text-wedding-navy group-hover:text-wedding-green'}`}>
                                     {item.question}
                                 </h3>
                                 <ChevronDown
@@ -75,10 +76,10 @@ const FAQ = () => {
 
                             <div
                                 className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                                    openIndex === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                                    openIndex === index ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
                                 }`}
                             >
-                                <p className="text-gray-700 leading-relaxed pt-4 pb-2">
+                                <p className="text-gray-600 leading-relaxed pb-6 pl-2 pr-4 font-light text-lg">
                                     {item.answer}
                                 </p>
                             </div>

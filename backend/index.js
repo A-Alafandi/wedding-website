@@ -1,4 +1,5 @@
 require("dotenv").config();
+const dns = require('dns');
 
 const express = require("express");
 const cors = require("cors");
@@ -66,6 +67,19 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
+    // FORCE IPv4 to prevent timeouts
+    tls: {
+        rejectUnauthorized: true,
+    },
+});
+
+// ADD THIS DEBUG BLOCK:
+transporter.verify((error, success) => {
+    if (error) {
+        console.error("❌ SMTP Connection Error:", error);
+    } else {
+        console.log("✅ Server is ready to take our messages");
+    }
 });
 // -------------------- API Endpoints --------------------
 
