@@ -67,13 +67,10 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    // FORCE IPv4 to prevent timeouts
-    tls: {
-        rejectUnauthorized: true,
-    },
+
+    family: 4,
 });
 
-// ADD THIS DEBUG BLOCK:
 transporter.verify((error, success) => {
     if (error) {
         console.error("❌ SMTP Connection Error:", error);

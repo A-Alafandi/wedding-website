@@ -27,9 +27,6 @@ const Footer = () => {
                                 year: 'numeric'
                             })}
                         </p>
-                        <p className="text-sm text-wedding-ivory/60 uppercase tracking-widest mt-2">
-                            The Hague, Netherlands
-                        </p>
                     </div>
 
                     {/* 2. Centerpiece / Hashtag */}
