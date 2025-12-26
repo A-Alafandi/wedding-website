@@ -25,7 +25,7 @@ const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:3000",
     process.env.FRONTEND_URL,
-].filter(Boolean); // Removes undefined values
+].filter(Boolean);
 
 app.use(
     cors({
@@ -61,14 +61,15 @@ const pool = mysql.createPool({
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-
-    family: 4,
+    tls: {
+        ciphers: "SSLv3",
+    },
 });
 
 transporter.verify((error, success) => {
