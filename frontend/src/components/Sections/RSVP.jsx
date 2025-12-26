@@ -21,7 +21,25 @@ export default function RSVP() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+
+        // FIXED: Clear plus_one_name if switching to 1 guest
+        if (name === "guests" && value === "1") {
+            setFormData(prev => ({ ...prev, guests: value, plus_one_name: "" }));
+        }
+        // FIXED: Reset guests and plus_one_name if not attending
+        else if (name === "attending" && value === "no") {
+            setFormData(prev => ({
+                ...prev,
+                attending: value,
+                guests: 1,
+                plus_one_name: "",
+                song_request: "" // Also clear song request
+            }));
+        }
+        else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+
         if (error) setError("");
     };
 
@@ -29,23 +47,38 @@ export default function RSVP() {
         e.preventDefault();
         setError("");
 
-        if (!API_URL) return setError("Configuration error: API URL missing.");
+        if (!API_URL) {
+            setError("Configuration error: API URL missing.");
+            return;
+        }
 
-        if (Number(formData.guests) === 2 && formData.plus_one_name.trim().length < 2) {
+        // Validation: Plus one name required if 2 guests and attending
+        if (formData.attending === "yes" &&
+            Number(formData.guests) === 2 &&
+            formData.plus_one_name.trim().length < 2) {
             setError("Please enter the full name of your plus one.");
             return;
         }
 
         setLoading(true);
         try {
+            // FIXED: Build clean payload based on attending status
+            const payload = {
+                name: formData.name,
+                email: formData.email,
+                attending: formData.attending === "yes",
+                guests: formData.attending === "yes" ? Number(formData.guests) : 0,
+                plus_one_name: formData.attending === "yes" && Number(formData.guests) === 2
+                    ? formData.plus_one_name
+                    : "",
+                song_request: formData.attending === "yes" ? formData.song_request : "",
+                message: formData.message // Always include message
+            };
+
             const res = await fetch(`${API_URL}/api/rsvp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ...formData,
-                    attending: formData.attending === "yes",
-                    guests: Number(formData.guests)
-                }),
+                body: JSON.stringify(payload),
             });
 
             const data = await res.json().catch(() => ({}));
@@ -76,7 +109,9 @@ export default function RSVP() {
                     </div>
                     <h2 className="text-4xl font-serif text-wedding-navy mb-4">Thank You!</h2>
                     <p className="text-gray-600 mb-8 font-serif text-lg">
-                        We can't wait to celebrate with you!
+                        {formData.attending === "yes"
+                            ? "We can't wait to celebrate with you!"
+                            : "We'll miss you on our special day."}
                     </p>
                     <button
                         onClick={() => window.location.reload()}
@@ -90,6 +125,9 @@ export default function RSVP() {
     }
 
     // -------------------- RENDER: FORM VIEW --------------------
+    const showGuestOptions = formData.attending === "yes";
+    const showPlusOne = showGuestOptions && Number(formData.guests) === 2;
+
     return (
         <section id="rsvp" ref={sectionRef} className="py-24 bg-stone-50 px-4 flex justify-center">
 
@@ -101,7 +139,7 @@ export default function RSVP() {
                     <p className="text-gray-500 font-serif italic text-lg">Please respond by May 8, 2026</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="px-8 md:px-16 pb-16 space-y-8">
+                <div className="px-8 md:px-16 pb-16 space-y-8">
 
                     {/* Error Banner */}
                     {error && (
@@ -113,7 +151,9 @@ export default function RSVP() {
                     {/* ROW 1: Name & Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Full Name</label>
+                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                                Full Name *
+                            </label>
                             <input
                                 name="name"
                                 value={formData.name}
@@ -124,7 +164,9 @@ export default function RSVP() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Email Address</label>
+                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                                Email Address
+                            </label>
                             <input
                                 name="email"
                                 type="email"
@@ -139,12 +181,15 @@ export default function RSVP() {
                     {/* ROW 2: Attending & Guests */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Will you be attending?</label>
+                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                                Will you be attending? *
+                            </label>
                             <div className="relative">
                                 <select
                                     name="attending"
                                     value={formData.attending}
                                     onChange={handleChange}
+                                    required
                                     className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none appearance-none transition-all cursor-pointer"
                                 >
                                     <option value="yes">Yes, gratefully</option>
@@ -156,57 +201,68 @@ export default function RSVP() {
                             </div>
                         </div>
 
-                        {/* Guest Count / Plus One Logic */}
+                        {/* FIXED: Guest Count with proper disabled state */}
                         <div>
-                            <div className={`transition-all duration-500 ease-in-out ${formData.attending === "yes" ? "opacity-100" : "opacity-50 pointer-events-none"}`}>
-                                <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Guests</label>
-                                <div className="relative">
-                                    <select
-                                        name="guests"
-                                        value={formData.guests}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none appearance-none transition-all cursor-pointer"
-                                    >
-                                        <option value="1">Just Me (1)</option>
-                                        <option value="2">Me + One (2)</option>
-                                    </select>
-                                    <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
-                                        <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
-                                    </div>
+                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                                Number of Guests {showGuestOptions && "*"}
+                            </label>
+                            <div className="relative">
+                                <select
+                                    name="guests"
+                                    value={formData.guests}
+                                    onChange={handleChange}
+                                    disabled={!showGuestOptions}
+                                    required={showGuestOptions}
+                                    className={`w-full px-4 py-3 rounded-xl bg-stone-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none appearance-none transition-all ${
+                                        showGuestOptions ? "cursor-pointer" : "opacity-50 cursor-not-allowed"
+                                    }`}
+                                >
+                                    <option value="1">Just Me (1)</option>
+                                    <option value="2">Me + One (2)</option>
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+                                    <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* ROW 3: Plus One Name (Conditional) */}
-                    <div className={`transition-all duration-300 overflow-hidden ${Number(formData.guests) === 2 && formData.attending === "yes" ? "max-h-32 opacity-100" : "max-h-0 opacity-0"}`}>
-                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Plus One Name</label>
+                    <div className={`transition-all duration-300 overflow-hidden ${showPlusOne ? "max-h-32 opacity-100" : "max-h-0 opacity-0"}`}>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                            Plus One Name *
+                        </label>
                         <input
                             name="plus_one_name"
                             value={formData.plus_one_name}
                             onChange={handleChange}
                             placeholder="Partner's Full Name"
-                            // Only require if visible
-                            required={Number(formData.guests) === 2 && formData.attending === "yes"}
+                            required={showPlusOne}
                             className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-gray-200 text-gray-800 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
                         />
                     </div>
 
-                    {/* ROW 4: Song Request (Full Width) */}
-                    <div>
-                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Song Request</label>
-                        <input
-                            name="song_request"
-                            value={formData.song_request}
-                            onChange={handleChange}
-                            placeholder="I wanna dance with somebody..."
-                            className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
-                        />
-                    </div>
+                    {/* ROW 4: Song Request (Only if Attending) */}
+                    {showGuestOptions && (
+                        <div>
+                            <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                                Song Request
+                            </label>
+                            <input
+                                name="song_request"
+                                value={formData.song_request}
+                                onChange={handleChange}
+                                placeholder="I wanna dance with somebody..."
+                                className="w-full px-4 py-3 rounded-xl bg-stone-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:bg-white focus:border-wedding-green focus:ring-4 focus:ring-wedding-green/10 outline-none transition-all"
+                            />
+                        </div>
+                    )}
 
-                    {/* ROW 5: Message (Full Width) */}
+                    {/* ROW 5: Message (Always Visible) */}
                     <div>
-                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Message</label>
+                        <label className="block text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                            Message to the Couple
+                        </label>
                         <textarea
                             name="message"
                             value={formData.message}
@@ -219,7 +275,8 @@ export default function RSVP() {
 
                     {/* Submit Button */}
                     <button
-                        type="submit"
+                        type="button"
+                        onClick={handleSubmit}
                         disabled={loading}
                         className={`w-full md:w-auto md:px-12 mx-auto block font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-[0.98] ${
                             loading
@@ -230,7 +287,7 @@ export default function RSVP() {
                         {loading ? "Sending RSVP..." : "Send RSVP"}
                     </button>
 
-                </form>
+                </div>
             </div>
         </section>
     );
