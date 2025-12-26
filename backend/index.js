@@ -70,8 +70,10 @@ const transporter = nodemailer.createTransport({
     tls: {
         ciphers: "SSLv3",
     },
+    family: 4,
 });
 
+// Verify connection on startup
 transporter.verify((error, success) => {
     if (error) {
         console.error("❌ SMTP Connection Error:", error);
@@ -79,6 +81,7 @@ transporter.verify((error, success) => {
         console.log("✅ Server is ready to take our messages");
     }
 });
+
 // -------------------- API Endpoints --------------------
 
 // 1. RSVP Endpoint
@@ -91,7 +94,6 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
             return res.status(400).json({ message: "Valid name is required" });
         }
 
-        // Logic: Force guests between 1 and 2
         const attendingBool = Boolean(attending);
         const guestsNum = Math.min(Math.max(Number(guests) || 1, 1), 2);
         const partnerName = (guestsNum === 2 && plus_one_name) ? plus_one_name.trim() : "";
@@ -113,7 +115,7 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
             message ? message.trim() : "",
         ]);
 
-        // Email Notification (Fire & Forget)
+        // Email Notification
         const mailOptions = {
             from: EMAIL_FROM,
             to: EMAIL_TO,
@@ -131,9 +133,14 @@ Msg:     ${message || "None"}
 `,
         };
 
-        transporter.sendMail(mailOptions, (err) => {
-            if (err) console.error("Email Error:", err.message);
-        });
+        // FIX: Await the email sending so we catch errors properly
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`✅ Email sent for ${name}`);
+        } catch (emailError) {
+            console.error("⚠️ Database saved, but Email failed:", emailError.message);
+            // We do NOT throw here, so the user still gets a "Success" message
+        }
 
         res.status(201).json({ message: "RSVP saved successfully" });
 
