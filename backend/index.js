@@ -1,20 +1,26 @@
 require("dotenv").config();
-const dns = require('dns');
 
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const mysql = require("mysql2/promise");
-const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 
 // -------------------- Configuration --------------------
 const PORT = Number(process.env.PORT || 3001);
-const EMAIL_FROM = "alafandi.a92@gmail.com";
 const EMAIL_TO = ["abdulrazak.alafandi@hotmail.com", "satya.piccioni@gmail.com"];
 
 const app = express();
 app.set("trust proxy", 1);
+
+// Configure SendGrid
+if (process.env.SENDGRID_API_KEY) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    console.log("✅ SendGrid configured");
+} else {
+    console.warn("⚠️ SENDGRID_API_KEY not set - emails will not be sent");
+}
 
 // -------------------- Security & Middleware --------------------
 app.use(helmet());
@@ -42,12 +48,12 @@ app.use(
 );
 
 // Rate Limits
-const generalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 500 }); // Read limit
-const writeLimiter = rateLimit({ windowMs: 10 * 60 * 1000, limit: 30 });   // Write limit
+const generalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 500 });
+const writeLimiter = rateLimit({ windowMs: 10 * 60 * 1000, limit: 30 });
 
 app.use(generalLimiter);
 
-// -------------------- Database & Email --------------------
+// -------------------- Database --------------------
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
@@ -57,29 +63,6 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     enableKeepAlive: true,
-});
-
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-        ciphers: "SSLv3",
-    },
-    family: 4,
-});
-
-// Verify connection on startup
-transporter.verify((error, success) => {
-    if (error) {
-        console.error("❌ SMTP Connection Error:", error);
-    } else {
-        console.log("✅ Server is ready to take our messages");
-    }
 });
 
 // -------------------- API Endpoints --------------------
@@ -95,7 +78,7 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
         }
 
         const attendingBool = Boolean(attending);
-        const guestsNum = Math.min(Math.max(Number(guests) || 1, 1), 2);
+        const guestsNum = attendingBool ? Math.min(Math.max(Number(guests) || 1, 1), 2) : 0;
         const partnerName = (guestsNum === 2 && plus_one_name) ? plus_one_name.trim() : "";
 
         // Database Insert
@@ -115,31 +98,29 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
             message ? message.trim() : "",
         ]);
 
-        // Email Notification
-        const mailOptions = {
-            from: EMAIL_FROM,
-            to: EMAIL_TO,
-            subject: `💌 New RSVP: ${name.trim()}`,
-            text: `
+        // Send Email via SendGrid
+        if (process.env.SENDGRID_API_KEY && process.env.SENDGRID_VERIFIED_EMAIL) {
+            try {
+                await sgMail.send({
+                    to: EMAIL_TO,
+                    from: process.env.SENDGRID_VERIFIED_EMAIL,
+                    subject: `💌 New RSVP: ${name.trim()}`,
+                    text: `
 NEW WEDDING RSVP
 ----------------
 Name:    ${name.trim()}
 Email:   ${email || "N/A"}
-Status:  ${attendingBool ? "Yes" : "No"}
+Status:  ${attendingBool ? "✅ YES" : "❌ NO"}
 Guests:  ${guestsNum}
 Plus +1: ${partnerName || "N/A"}
 Song:    ${song_request || "None"}
 Msg:     ${message || "None"}
 `,
-        };
-
-        // FIX: Await the email sending so we catch errors properly
-        try {
-            await transporter.sendMail(mailOptions);
-            console.log(`✅ Email sent for ${name}`);
-        } catch (emailError) {
-            console.error("⚠️ Database saved, but Email failed:", emailError.message);
-            // We do NOT throw here, so the user still gets a "Success" message
+                });
+                console.log(`✅ Email sent for ${name}`);
+            } catch (emailError) {
+                console.error("⚠️ Database saved, but Email failed:", emailError.message);
+            }
         }
 
         res.status(201).json({ message: "RSVP saved successfully" });
