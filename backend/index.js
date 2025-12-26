@@ -42,8 +42,8 @@ app.use(
 );
 
 // Rate Limits
-const generalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 500 });
-const writeLimiter = rateLimit({ windowMs: 10 * 60 * 1000, limit: 30 });
+const generalLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 500 }); // Read limit
+const writeLimiter = rateLimit({ windowMs: 10 * 60 * 1000, limit: 30 });   // Write limit
 
 app.use(generalLimiter);
 
@@ -59,17 +59,18 @@ const pool = mysql.createPool({
     enableKeepAlive: true,
 });
 
-// FIXED: Try port 465 with secure connection
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
+    tls: {
+        ciphers: "SSLv3",
+    },
+    family: 4,
 });
 
 // Verify connection on startup
@@ -94,13 +95,13 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
         }
 
         const attendingBool = Boolean(attending);
-        const guestsNum = attendingBool ? Math.min(Math.max(Number(guests) || 1, 1), 2) : 0;
+        const guestsNum = Math.min(Math.max(Number(guests) || 1, 1), 2);
         const partnerName = (guestsNum === 2 && plus_one_name) ? plus_one_name.trim() : "";
 
         // Database Insert
         const insertQuery = `
-            INSERT INTO rsvps
-                (name, email, attending, guests, plus_one_name, song_request, message)
+            INSERT INTO rsvps 
+            (name, email, attending, guests, plus_one_name, song_request, message)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
 
@@ -124,7 +125,7 @@ NEW WEDDING RSVP
 ----------------
 Name:    ${name.trim()}
 Email:   ${email || "N/A"}
-Status:  ${attendingBool ? "✅ YES" : "❌ NO"}
+Status:  ${attendingBool ? "Yes" : "No"}
 Guests:  ${guestsNum}
 Plus +1: ${partnerName || "N/A"}
 Song:    ${song_request || "None"}
@@ -132,7 +133,7 @@ Msg:     ${message || "None"}
 `,
         };
 
-        // Send email (don't block response if it fails)
+        // FIX: Await the email sending so we catch errors properly
         try {
             await transporter.sendMail(mailOptions);
             console.log(`✅ Email sent for ${name}`);
