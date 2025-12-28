@@ -11,7 +11,7 @@ import ahmad1 from '../../assets/Groomsman/a1.jpg';
 const WeddingParty = () => {
     const bridesmaids = [
         {
-            name: "josephine",
+            name: "Josephine",
             role: "Maid of Honor",
             description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             photo: josephine
