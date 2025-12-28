@@ -13,31 +13,31 @@ const WeddingParty = () => {
         {
             name: "Josephine",
             role: "Maid of Honor",
-            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            description: "Satya’s favorite future nurse and the little sister she was always meant to have.",
             photo: josephine
         },
         {
             name: "Viola ",
             role: "Bridesmaid",
-            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            description: "Satya’s longest-standing partner in crime who has been \"fighting the patriarchy\" by her side since their Leiden days.",
             photo: vaiola
         },
         {
             name: "Faten",
             role: "Bridesmaid",
-            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            description: "A warm and lovely presence who brings a sense of grace and kindness to the group.",
             photo: faten
         },
         {
             name: "Britt",
             role: "Bridesmaid",
-            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            description: "A talented photographer and total Swiftie who brings the best energy and detective-level intuition.",
             photo:britt
         },
         {
             name: "Khadija",
             role: "Bridesmaid",
-            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            description: "The group’s secret weapon who is always there with the best advice and the most loyal heart.",
             photo: khadija
         },
     ];
