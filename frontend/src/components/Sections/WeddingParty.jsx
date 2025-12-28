@@ -11,35 +11,35 @@ import ahmad1 from '../../assets/Groomsman/a1.jpg';
 const WeddingParty = () => {
     const bridesmaids = [
         {
-            name: "Viola ",
+            name: "josephine",
             role: "Maid of Honor",
-            description: "Satya's sister and lifelong best friend. Always there with love and laughter.",
+            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            photo: josephine
+        },
+        {
+            name: "Viola ",
+            role: "Bridesmaid",
+            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             photo: vaiola
         },
         {
-            name: "josephine",
+            name: "Faten",
             role: "Bridesmaid",
-            description: "College roommate who turned into family. Brings joy to every moment.",
-            photo: josephine
+            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            photo: faten
         },
         {
             name: "Britt",
             role: "Bridesmaid",
-            description: "Adventure partner and voice of reason. Can't imagine this day without her.",
+            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             photo:britt
         },
         {
             name: "Khadija",
             role: "Bridesmaid",
-            description: "The one who makes every gathering brighter with her energy and kindness.",
+            description: "lorim ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             photo: khadija
         },
-        {
-            name: "Faten",
-            role: "Bridesmaid",
-            description: "Satya's confidante through thick and thin. Her support means the world.",
-            photo: faten
-        }
     ];
 
     const groomsmen = [
@@ -55,12 +55,12 @@ const WeddingParty = () => {
             description: "Longtime friend and travel companion. Always up for celebration.",
             photo: ammar2
         },
-        {
-            name: "zakarya Alhasan",
-            role: "Groomsman",
-            description: "The calm in every storm. Grateful to have him by our side.",
-            photo: ahmad1
-        },
+        // {
+        //     name: "zakarya Alhasan",
+        //     role: "Groomsman",
+        //     description: "The calm in every storm. Grateful to have him by our side.",
+        //     photo: ahmad1
+        // },
         // {
         //     name: "Coen De Groot",
         //     role: "Groomsman",
