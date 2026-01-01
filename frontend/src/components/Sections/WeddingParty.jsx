@@ -99,7 +99,8 @@ const WeddingParty = () => {
                     <div className="grid md:grid-cols-5 gap-8">
                         {bridesmaids.map((person, index) => (
                             <div key={index} className="text-center">
-                                <div className="rounded-3xl overflow-hidden shadow-2xl mb-6">
+                                {/* FIX: force consistent aspect ratio + enable group-hover */}
+                                <div className="rounded-3xl overflow-hidden shadow-2xl mb-6 aspect-[4/5] w-full group">
                                     <img
                                         src={person.photo}
                                         alt={person.name}
@@ -107,6 +108,7 @@ const WeddingParty = () => {
                                         loading="lazy"
                                     />
                                 </div>
+
                                 <h4 className="text-xl font-serif text-wedding-navy mb-1">
                                     {person.name}
                                 </h4>
@@ -133,7 +135,8 @@ const WeddingParty = () => {
                     <div className="grid md:grid-cols-5 gap-8">
                         {groomsmen.map((person, index) => (
                             <div key={index} className="text-center">
-                                <div className="rounded-3xl overflow-hidden shadow-2xl mb-6">
+                                {/* Same fix here for consistency */}
+                                <div className="rounded-3xl overflow-hidden shadow-2xl mb-6 aspect-[4/5] w-full group">
                                     <img
                                         src={person.photo}
                                         alt={person.name}
@@ -141,6 +144,7 @@ const WeddingParty = () => {
                                         loading="lazy"
                                     />
                                 </div>
+
                                 <h4 className="text-xl font-serif text-wedding-navy mb-1">
                                     {person.name}
                                 </h4>
