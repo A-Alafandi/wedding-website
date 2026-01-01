@@ -103,7 +103,7 @@ const WeddingParty = () => {
                                     <img
                                         src={person.photo}
                                         alt={person.name}
-                                        className="w-full h-80 object-cover"
+                                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                         loading="lazy"
                                     />
                                 </div>
