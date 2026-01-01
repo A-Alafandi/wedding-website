@@ -21,10 +21,10 @@ function App() {
                     <Hero />
                     <OurStory />
                     <WeddingParty />
-                    <Gallery />
-                    <SharePhotos />
                     <Details />
                     <Schedule />
+                    <Gallery />
+                    <SharePhotos />
                     <Travel />
                     <FAQ />
                     <RSVP />

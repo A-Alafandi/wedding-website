@@ -33,7 +33,7 @@ export default function RSVP() {
                 attending: value,
                 guests: 1,
                 plus_one_name: "",
-                song_request: "" // Also clear song request
+                song_request: ""
             }));
         }
         else {
@@ -62,7 +62,6 @@ export default function RSVP() {
 
         setLoading(true);
         try {
-            // FIXED: Build clean payload based on attending status
             const payload = {
                 name: formData.name,
                 email: formData.email,
@@ -135,7 +134,7 @@ export default function RSVP() {
 
                 {/* Header Inside Card */}
                 <div className="pt-12 pb-8 text-center px-8">
-                    <h2 className="text-4xl md:text-5xl font-serif text-wedding-green mb-3">RSVP</h2>
+                    <h2 className="text-4xl md:text-5xl font-serif text-wedding-green mb-3">Kindly confirm your attendance</h2>
                     <p className="text-gray-500 font-serif italic text-lg">Please respond by May 8, 2026</p>
                 </div>
 

@@ -1,12 +1,11 @@
 import britt from '../../assets/bridesmaids/b.jpg';
 import khadija from '../../assets/bridesmaids/k.jpg';
 import josephine from '../../assets/bridesmaids/j.jpg';
-import vaiola from '../../assets/bridesmaids/v.jpg';
-import faten from '../../assets/bridesmaids/f.jpg';
+import viola from '../../assets/bridesmaids/v.jpg';
+import faten from '../../assets/bridesmaids/f.png';
 
-import ammar2 from '../../assets/Groomsman/ammar2.jpeg';
 import ahmad from '../../assets/Groomsman/a.jpg';
-import ahmad1 from '../../assets/Groomsman/a1.jpg';
+import ammar from '../../assets/Groomsman/Ammar.jpeg';
 
 const WeddingParty = () => {
     const bridesmaids = [
@@ -20,7 +19,7 @@ const WeddingParty = () => {
             name: "Viola ",
             role: "Bridesmaid",
             description: "Satya’s longest-standing partner in crime who has been \"fighting the patriarchy\" by her side since their Leiden days.",
-            photo: vaiola
+            photo: viola
         },
         {
             name: "Faten",
@@ -46,14 +45,14 @@ const WeddingParty = () => {
         {
             name: "Ahmad Alafandi",
             role: "Best Man",
-            description: "Abdulrazak's brother and closest confidant. The one who knows all the stories.",
+            description: "Abdul's brother and closest confidant. The one who knows all the stories.",
             photo:ahmad
         },
         {
             name: "Ammar Etaki",
             role: "Groomsman",
             description: "Longtime friend and travel companion. Always up for celebration.",
-            photo: ammar2
+            photo: ammar
         },
         // {
         //     name: "zakarya Alhasan",

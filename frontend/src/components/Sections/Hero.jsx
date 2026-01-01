@@ -66,7 +66,7 @@ const Hero = () => {
                     onClick={scrollToRSVP}
                     className="group relative px-8 py-4 bg-wedding-gold text-white font-bold rounded-full shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 hover:shadow-wedding-gold/50"
                 >
-                    <span className="uppercase tracking-wider text-sm">RSVP Now</span>
+                    <span className="uppercase tracking-wider text-sm">Confirm your attendance</span>
                 </button>
             </div>
 
