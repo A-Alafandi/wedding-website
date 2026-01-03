@@ -6,6 +6,7 @@ import faten from '../../assets/bridesmaids/f.png';
 
 import ahmad from '../../assets/Groomsman/a.jpg';
 import ammar from '../../assets/Groomsman/Ammar.jpeg';
+import wasim from '../../assets/Groomsman/w.png';
 
 const WeddingParty = () => {
     const bridesmaids = [
@@ -43,35 +44,39 @@ const WeddingParty = () => {
 
     const groomsmen = [
         {
-            name: "Ahmad Alafandi",
+            name: "Ammar Etaki",
             role: "Best Man",
-            description: "Abdul's brother and closest confidant. The one who knows all the stories.",
-            photo:ahmad
+            description: "Longtime friend and travel companion. Always up for celebration.",
+            status: "Taken",
+            photo:ammar
         },
         {
-            name: "Ammar Etaki",
+
+            name: "Ahmad Alafandi",
             role: "Groomsman",
-            description: "Longtime friend and travel companion. Always up for celebration.",
-            photo: ammar
+            description: "Abdul's brother and closest confidant. The one who knows all the stories.",
+            status: "Available",
+            photo: ahmad
         },
-        // {
-        //     name: "zakarya Alhasan",
-        //     role: "Groomsman",
-        //     description: "The calm in every storm. Grateful to have him by our side.",
-        //     photo: ahmad1
-        // },
-        // {
-        //     name: "Coen De Groot",
-        //     role: "Groomsman",
-        //     description: "The life of the party and Abdulrazak's trusted wingman for years.",
-        //     photo: "https://www.gentlemansgazette.com/wp-content/uploads/2015/05/Navy-Suit-with-Light-Blue-Shirt-and-Burgundy-Tie.jpg"
-        // },
-        // {
-        //     name: "Omar Ali",
-        //     role: "Groomsman",
-        //     description: "Brother in spirit, always ready with wisdom and a smile.",
-        //     photo: ""
-        // }
+        {
+            name: "Zakarya AlHasan ",
+            role: "Groomsman",
+            description: "The calm in every storm. Grateful to have him by our side.",
+            photo: ""
+        },
+        {
+            name: "Wasim Khouja",
+            role: "Groomsman",
+            description: "The life of the party and Abdul's trusted wingman for years.",
+            status: "Taken",
+            photo: wasim
+        },
+        {
+            name: "Ilhan Ismail",
+            role: "Groomsman",
+            description: "Brother in spirit, always ready with wisdom and a smile.",
+            photo: ""
+        }
     ];
 
     return (
