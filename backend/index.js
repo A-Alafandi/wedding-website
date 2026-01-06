@@ -9,7 +9,7 @@ const sgMail = require("@sendgrid/mail");
 
 // -------------------- Configuration --------------------
 const PORT = Number(process.env.PORT || 3001);
-const EMAIL_TO = ["abdulrazak.alafandi@hotmail.com", "satya.piccioni@gmail.com"];
+const EMAIL_TO = ["alafandi.a92@gmail.com", "satya.piccioni@gmail.com"];
 
 const app = express();
 app.set("trust proxy", 1);
