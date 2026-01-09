@@ -8,6 +8,7 @@ import asmaa from '../../assets/bridesmaids/S.png';
 import ahmad from '../../assets/Groomsman/a.jpg';
 import ammar from '../../assets/Groomsman/Ammar.jpeg';
 import wasim from '../../assets/Groomsman/w.png';
+import ilhan from '../../assets/Groomsman/I.png';
 
 const WeddingParty = () => {
     const bridesmaids = [
@@ -54,14 +55,12 @@ const WeddingParty = () => {
             name: 'Ammar Etaki',
             role: 'Best Man',
             description: 'Longtime friend and travel companion. Always up for celebration.',
-            status: 'Taken',
             photo: ammar,
         },
         {
             name: 'Ahmad Alafandi',
             role: 'Groomsman',
             description: "Abdul's brother and closest confidant. The one who knows all the stories.",
-            status: 'Available',
             photo: ahmad,
         },
         {
@@ -74,15 +73,21 @@ const WeddingParty = () => {
             name: 'Wasim Khouja',
             role: 'Groomsman',
             description: "The life of the party and Abdul's trusted wingman for years.",
-            status: 'Taken',
             photo: wasim,
         },
         {
             name: 'Ilhan Ismail',
             role: 'Groomsman',
-            description: 'Brother in spirit, always ready with wisdom and a smile.',
+            description: 'A true brother in spirit, loyal, grounded, and always there when it matters most.',
+            photo: ilhan,
+        },
+        {
+            name: 'Omar Ali',
+            role: 'Groomsman',
+            description: 'A true brother in spirit, loyal, grounded, and always there when it matters most.',
             photo: '',
         },
+
     ];
 
     const PersonCard = ({ person }) => {
