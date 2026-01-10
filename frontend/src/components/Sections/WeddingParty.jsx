@@ -17,7 +17,7 @@ const WeddingParty = () => {
     const bridesmaids = [
         {
             name: 'Josephine Hoeberechts ',
-            role: 'Maid of Honor',
+            role: 'Maid of Honour',
             description: 'Satya’s favorite future nurse and the little sister she was always meant to have.',
             photo: josephine,
         },
@@ -34,7 +34,7 @@ const WeddingParty = () => {
             photo: faten,
         },
         {
-            name: 'Asmaa iskandroni',
+            name: 'Asmaa Iskandroni',
             role: 'Bridesmaid',
             description: 'A beautiful soul and a legendary cook, she is our friend who nourishes our hearts just as much as she nourishes everyone around us with her sweetness',
             photo: asmaa,
