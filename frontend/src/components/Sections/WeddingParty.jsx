@@ -10,7 +10,8 @@ import ammar from '../../assets/Groomsman/Ammar.jpeg';
 import wasim from '../../assets/Groomsman/w.png';
 import ilhan from '../../assets/Groomsman/I.png';
 import zakarya from '../../assets/Groomsman/Z.png';
-// import omar from '../../assets/Groomsman/o.png';
+import omar1 from '../../assets/Groomsman/o1.png';
+
 
 const WeddingParty = () => {
     const bridesmaids = [
@@ -87,7 +88,7 @@ const WeddingParty = () => {
             name: 'Omar Ali',
             role: 'Groomsman',
             description: 'A friendship forged here in the Netherlands that feels like a lifetime. A true brother in spirit, loyal, grounded, and always there when it matters most.',
-            photo: '',
+            photo:omar1,
         },
 
     ];
@@ -103,7 +104,7 @@ const WeddingParty = () => {
                         <img
                             src={person.photo}
                             alt={person.name}
-                            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover object-top transition-transform duration-700 transform-gpu will-change-transform group-hover:scale-105"
                             loading="lazy"
                         />
                     ) : (
