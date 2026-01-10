@@ -10,7 +10,7 @@ import ammar from '../../assets/Groomsman/Ammar.jpeg';
 import wasim from '../../assets/Groomsman/w.png';
 import ilhan from '../../assets/Groomsman/I.png';
 import zakarya from '../../assets/Groomsman/Z.png';
-import omar from '../../assets/Groomsman/o.png';
+// import omar from '../../assets/Groomsman/o.png';
 
 const WeddingParty = () => {
     const bridesmaids = [
