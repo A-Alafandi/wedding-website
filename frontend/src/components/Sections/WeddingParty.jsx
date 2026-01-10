@@ -9,6 +9,8 @@ import ahmad from '../../assets/Groomsman/a.jpg';
 import ammar from '../../assets/Groomsman/Ammar.jpeg';
 import wasim from '../../assets/Groomsman/w.png';
 import ilhan from '../../assets/Groomsman/I.png';
+import zakarya from '../../assets/Groomsman/Z.png';
+import omar from '../../assets/Groomsman/o.png';
 
 const WeddingParty = () => {
     const bridesmaids = [
@@ -54,37 +56,37 @@ const WeddingParty = () => {
         {
             name: 'Ammar Etaki',
             role: 'Best Man',
-            description: 'Longtime friend and travel companion. Always up for celebration.',
+            description: 'My best friend of over 16 years. As the keeper of all our shared history, he is the one who knows every story and has been by my side through it all.',
             photo: ammar,
         },
         {
             name: 'Ahmad Alafandi',
             role: 'Groomsman',
-            description: "Abdul's brother and closest confidant. The one who knows all the stories.",
+            description: "My only brother and closest ally. More than just family, we are best friends, and he is the funny, hardworking rock who is ready for any situation. (Ladies, take note he’s looking for 'the one'!).",
             photo: ahmad,
         },
         {
             name: 'Zakarya AlHasan ',
             role: 'Groomsman',
-            description: 'The calm in every storm. Grateful to have him by our side.',
-            photo: '',
+            description: 'A close friend of seven years and our group\'s most recent groom. He is the calm in the storm, a deep thinker, and a constant source of unwavering support.',
+            photo:zakarya,
         },
         {
             name: 'Wasim Khouja',
             role: 'Groomsman',
-            description: "The life of the party and Abdul's trusted wingman for years.",
+            description: "A friend with an enormous heart who treats us like family. We are forever grateful for his hospitality, sharing countless delicious feasts at his home with his lovely wife and son, Timo.",
             photo: wasim,
         },
         {
             name: 'Ilhan Ismail',
             role: 'Groomsman',
-            description: 'A true brother in spirit, loyal, grounded, and always there when it matters most.',
+            description: 'My first true friend and \'big brother\' during my time in Turkey. A hardworking and beautiful soul, he opened his home and heart to me exactly when I needed it most.',
             photo: ilhan,
         },
         {
             name: 'Omar Ali',
             role: 'Groomsman',
-            description: 'A true brother in spirit, loyal, grounded, and always there when it matters most.',
+            description: 'A friendship forged here in the Netherlands that feels like a lifetime. A true brother in spirit, loyal, grounded, and always there when it matters most.',
             photo: '',
         },
 
