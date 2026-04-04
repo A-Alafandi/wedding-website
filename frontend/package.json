@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.3",
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",
     "lucide-react": "^0.562.0",

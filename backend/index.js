@@ -5,28 +5,34 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const mysql = require("mysql2/promise");
-const sgMail = require("@sendgrid/mail");
+const { BrevoClient } = require("@getbrevo/brevo");
 
 // -------------------- Configuration --------------------
 const PORT = Number(process.env.PORT || 3001);
-const EMAIL_TO = ["alafandi.a92@gmail.com", "satya.piccioni@gmail.com"];
+const EMAIL_TO = (process.env.EMAIL_TO || "alafandi.a92@gmail.com,satya.piccioni@gmail.com")
+    .split(",")
+    .map((email) => email.trim())
+    .filter(Boolean);
 
 const app = express();
 app.set("trust proxy", 1);
 
-// Configure SendGrid
-if (process.env.SENDGRID_API_KEY) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    console.log("✅ SendGrid configured");
+// Configure Brevo
+let brevoClient = null;
+
+if (process.env.BREVO_API_KEY) {
+    brevoClient = new BrevoClient({
+        apiKey: process.env.BREVO_API_KEY,
+    });
+    console.log("✅ Brevo configured");
 } else {
-    console.warn("⚠️ SENDGRID_API_KEY not set - emails will not be sent");
+    console.warn("⚠️ BREVO_API_KEY not set - emails will not be sent");
 }
 
 // -------------------- Security & Middleware --------------------
 app.use(helmet());
 app.use(express.json({ limit: "50kb" }));
 
-// CORS Setup
 const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:3000",
@@ -72,19 +78,17 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
     try {
         const { name, email, attending, guests, plus_one_name, song_request, message } = req.body;
 
-        // Validation
         if (!name || name.trim().length < 2) {
             return res.status(400).json({ message: "Valid name is required" });
         }
 
         const attendingBool = Boolean(attending);
         const guestsNum = attendingBool ? Math.min(Math.max(Number(guests) || 1, 1), 2) : 0;
-        const partnerName = (guestsNum === 2 && plus_one_name) ? plus_one_name.trim() : "";
+        const partnerName = guestsNum === 2 && plus_one_name ? plus_one_name.trim() : "";
 
-        // Database Insert
         const insertQuery = `
-            INSERT INTO rsvps 
-            (name, email, attending, guests, plus_one_name, song_request, message)
+            INSERT INTO rsvps
+                (name, email, attending, guests, plus_one_name, song_request, message)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
 
@@ -98,33 +102,43 @@ app.post("/api/rsvp", writeLimiter, async (req, res) => {
             message ? message.trim() : "",
         ]);
 
-        // Send Email via SendGrid
-        if (process.env.SENDGRID_API_KEY && process.env.SENDGRID_VERIFIED_EMAIL) {
+        if (brevoClient && process.env.BREVO_SENDER_EMAIL) {
             try {
-                await sgMail.send({
-                    to: EMAIL_TO,
-                    from: process.env.SENDGRID_VERIFIED_EMAIL,
-                    subject: `💌 New RSVP: ${name.trim()}`,
-                    text: `
+                await brevoClient.transactionalEmails.sendTransacEmail({
+                    sender: {
+                        email: process.env.BREVO_SENDER_EMAIL,
+                        name: process.env.BREVO_SENDER_NAME || "Wedding RSVP",
+                    },
+                    to: EMAIL_TO.map((emailAddress) => ({ email: emailAddress })),
+                    subject: `New RSVP: ${name.trim()}`,
+                    textContent: `
 NEW WEDDING RSVP
 ----------------
 Name:    ${name.trim()}
 Email:   ${email || "N/A"}
-Status:  ${attendingBool ? "✅ YES" : "❌ NO"}
+Status:  ${attendingBool ? "YES" : "NO"}
 Guests:  ${guestsNum}
 Plus +1: ${partnerName || "N/A"}
 Song:    ${song_request || "None"}
 Msg:     ${message || "None"}
 `,
                 });
-                console.log(`✅ Email sent for ${name}`);
+
+                console.log(`✅ Email sent for ${name.trim()}`);
             } catch (emailError) {
-                console.error("⚠️ Database saved, but Email failed:", emailError.message);
+                console.error(
+                    "⚠️ Database saved, but Email failed:",
+                    emailError?.body ||
+                    emailError?.response?.body ||
+                    emailError?.message ||
+                    emailError
+                );
             }
+        } else {
+            console.warn("⚠️ Brevo email settings missing - skipping email send");
         }
 
         res.status(201).json({ message: "RSVP saved successfully" });
-
     } catch (err) {
         console.error("RSVP Error:", err.message);
         res.status(500).json({ message: "Internal server error" });
@@ -136,8 +150,13 @@ app.post("/api/messages", writeLimiter, async (req, res) => {
     try {
         const { name, message } = req.body;
 
-        if (!name || name.trim().length < 2) return res.status(400).json({ message: "Name required" });
-        if (!message || message.trim().length < 2) return res.status(400).json({ message: "Message required" });
+        if (!name || name.trim().length < 2) {
+            return res.status(400).json({ message: "Name required" });
+        }
+
+        if (!message || message.trim().length < 2) {
+            return res.status(400).json({ message: "Message required" });
+        }
 
         await pool.query(
             `INSERT INTO guest_messages (name, message) VALUES (?, ?)`,
@@ -145,7 +164,6 @@ app.post("/api/messages", writeLimiter, async (req, res) => {
         );
 
         res.status(201).json({ message: "Message saved" });
-
     } catch (err) {
         console.error("Message Error:", err.message);
         res.status(500).json({ message: "Internal server error" });
