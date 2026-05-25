@@ -135,7 +135,7 @@ export default function RSVP() {
                 {/* Header Inside Card */}
                 <div className="pt-12 pb-8 text-center px-8">
                     <h2 className="text-4xl md:text-5xl font-serif text-wedding-green mb-3">Kindly confirm your attendance</h2>
-                    <p className="text-gray-500 font-serif italic text-lg">Please respond by May 15, 2026</p>
+                    <p className="text-gray-500 font-serif italic text-lg">Please respond by June 15, 2026</p>
                 </div>
 
                 <div className="px-8 md:px-16 pb-16 space-y-8">
