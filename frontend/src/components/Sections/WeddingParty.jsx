@@ -51,7 +51,7 @@ const WeddingParty = () => {
 
     const littleOnes = [
         {
-            name: 'Muna Alafandi',
+            name: 'Mouna Al-afandi',
             role: 'Flower Girl',
             description: 'Our little ray of sunshine who will scatter petals and pure joy down the aisle before the big moment.',
             photo: mouna,
