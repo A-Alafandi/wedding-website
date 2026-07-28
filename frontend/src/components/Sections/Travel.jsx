@@ -202,7 +202,7 @@ const Travel = () => {
                                 </div>
                                 <div className="group">
                                     <h5 className="font-bold text-gray-800 text-lg group-hover:text-wedding-navy transition-colors">Van der Valk Enschede</h5>
-                                    <p className="text-gray-600 text-sm">A large, modern hotel with a pool—located between Enschede and Haaksbergen.</p>
+                                    <p className="text-gray-600 text-sm">A large, modern hotel with a pool, located between Enschede and Haaksbergen.</p>
                                 </div>
                             </div>
 

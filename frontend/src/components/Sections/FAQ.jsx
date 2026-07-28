@@ -27,11 +27,11 @@ const FAQ = () => {
         },
         {
             question: "Can I take photos during the ceremony?",
-            answer: "We're having an 'unplugged' ceremony. Please refrain from taking photos during the ceremony—our professional photographer will capture everything! Feel free to take photos during the reception."
+            answer: "We're having an 'unplugged' ceremony. Please refrain from taking photos during the ceremony, since our professional photographer will capture everything! Feel free to take photos during the reception."
         },
         {
             question: "Will there be dietary options?",
-            answer: "Yes! Please indicate any dietary restrictions on your RSVP form. We'll accommodate vegetarian, vegan, gluten-free, and other dietary needs."
+            answer: "Yes! Since RSVPs are now closed, please reach out to us directly if you have any dietary restrictions we should know about, and we'll do our best to accommodate them."
         }
     ];
 

@@ -15,7 +15,7 @@ const OurStory = () => {
                     </h2>
                     <div className="w-24 h-1 bg-wedding-green/20 mx-auto mb-6 rounded-full"></div>
                     <p className="text-xl text-gray-500 italic font-serif">
-                        Timing is everything — and ours has never followed a straight line.
+                        Timing is everything, and ours has never followed a straight line.
                     </p>
                 </div>
 
@@ -55,13 +55,13 @@ const OurStory = () => {
                                 At the same time, Satya had plans to move to the USA. Flights were booked,
                                 life was mapped out. But as she got to know Abdul, it became clear that
                                 the future she was preparing for no longer felt like the right one.
-                                Choosing Abdul meant choosing to stay. So the flights were cancelled —
+                                Choosing Abdul meant choosing to stay. So the flights were cancelled,
                                 and suddenly, Satya found herself in an almost empty studio apartment,
                                 having already sold most of her furniture.
                             </p>
 
                             <p>
-                                It felt like standing in the middle of uncertainty — but it was also the
+                                It felt like standing in the middle of uncertainty, but it was also the
                                 beginning of building something real.
                             </p>
 
@@ -73,16 +73,16 @@ const OurStory = () => {
                             </p>
 
                             <p>
-                                Satya arrived in Istanbul alone — without speaking Arabic or Turkish —
+                                Satya arrived in Istanbul alone, without speaking Arabic or Turkish,
                                 and still chose to continue the visit. She stayed with Abdul’s mother,
                                 carrying not only courage, but love. From the Netherlands, Abdul reassured
-                                his mother that Satya was a part of him — that even if he could not be
+                                his mother that Satya was a part of him, that even if he could not be
                                 there physically, his presence was with her.
                             </p>
 
                             <p>
                                 A few days later, his mother did something extraordinary. She arranged
-                                for a sheikh to come and marry us religiously — across borders, across
+                                for a sheikh to come and marry us religiously, across borders, across
                                 screens, across circumstances. Abdul in the Netherlands. Satya in Istanbul.
                                 Two hearts fully present, even when distance tried to intervene.
                             </p>
@@ -93,13 +93,13 @@ const OurStory = () => {
                             </p>
 
                             <p>
-                                Fast forward to now — we live together, sharing our days, our routines,
+                                Fast forward to now, and we live together, sharing our days, our routines,
                                 our laughter, and our quiet moments. What began with a couch grew into a
                                 choice, and that choice became a life.
                             </p>
 
                             <p>
-                                Now, we want to celebrate — with you, together, and yes… legally 😂
+                                Now, we want to celebrate with you, together, and yes… legally 😂
                             </p>
 
                             <p className="font-medium text-gray-900 pt-4">
@@ -110,7 +110,7 @@ const OurStory = () => {
                             {/* Simple Signature */}
                             <div className="pt-8 text-right">
                                 <p className="text-3xl font-serif text-wedding-green italic">
-                                    — Satya & Abdul
+                                    Satya & Abdul
                                 </p>
                             </div>
                         </div>

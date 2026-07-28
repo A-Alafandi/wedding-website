@@ -74,75 +74,8 @@ const pool = mysql.createPool({
 // -------------------- API Endpoints --------------------
 
 // 1. RSVP Endpoint
-app.post("/api/rsvp", writeLimiter, async (req, res) => {
-    try {
-        const { name, email, attending, guests, plus_one_name, song_request, message } = req.body;
-
-        if (!name || name.trim().length < 2) {
-            return res.status(400).json({ message: "Valid name is required" });
-        }
-
-        const attendingBool = Boolean(attending);
-        const guestsNum = attendingBool ? Math.min(Math.max(Number(guests) || 1, 1), 2) : 0;
-        const partnerName = guestsNum === 2 && plus_one_name ? plus_one_name.trim() : "";
-
-        const insertQuery = `
-            INSERT INTO rsvps
-                (name, email, attending, guests, plus_one_name, song_request, message)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        `;
-
-        await pool.query(insertQuery, [
-            name.trim(),
-            email ? email.trim() : "",
-            attendingBool ? 1 : 0,
-            guestsNum,
-            partnerName,
-            song_request ? song_request.trim() : "",
-            message ? message.trim() : "",
-        ]);
-
-        if (brevoClient && process.env.BREVO_SENDER_EMAIL) {
-            try {
-                await brevoClient.transactionalEmails.sendTransacEmail({
-                    sender: {
-                        email: process.env.BREVO_SENDER_EMAIL,
-                        name: process.env.BREVO_SENDER_NAME || "Wedding RSVP",
-                    },
-                    to: EMAIL_TO.map((emailAddress) => ({ email: emailAddress })),
-                    subject: `New RSVP: ${name.trim()}`,
-                    textContent: `
-NEW WEDDING RSVP
-----------------
-Name:    ${name.trim()}
-Email:   ${email || "N/A"}
-Status:  ${attendingBool ? "YES" : "NO"}
-Guests:  ${guestsNum}
-Plus +1: ${partnerName || "N/A"}
-Song:    ${song_request || "None"}
-Msg:     ${message || "None"}
-`,
-                });
-
-                console.log(`✅ Email sent for ${name.trim()}`);
-            } catch (emailError) {
-                console.error(
-                    "⚠️ Database saved, but Email failed:",
-                    emailError?.body ||
-                    emailError?.response?.body ||
-                    emailError?.message ||
-                    emailError
-                );
-            }
-        } else {
-            console.warn("⚠️ Brevo email settings missing - skipping email send");
-        }
-
-        res.status(201).json({ message: "RSVP saved successfully" });
-    } catch (err) {
-        console.error("RSVP Error:", err.message);
-        res.status(500).json({ message: "Internal server error" });
-    }
+app.post("/api/rsvp", (req, res) => {
+    res.status(403).json({ message: "RSVPs are now closed." });
 });
 
 // 2. Guest Messages Endpoint

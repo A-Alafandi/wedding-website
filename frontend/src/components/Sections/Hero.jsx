@@ -2,13 +2,6 @@ import Countdown from '../Layout/Countdown';
 import backgroundImage from '../../assets/Hero.png';
 
 const Hero = () => {
-    const scrollToRSVP = () => {
-        const rsvpSection = document.getElementById('rsvp');
-        if (rsvpSection) {
-            rsvpSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
     const handleScrollDown = () => {
         window.scrollTo({
             top: window.innerHeight,
@@ -52,22 +45,15 @@ const Hero = () => {
 
                 {/* Date & Location */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-base sm:text-xl font-bold mb-8 sm:mb-12 opacity-90">
-                    <time dateTime="2026-08-08">August 9, 2026</time>
+                    <time dateTime="2026-08-09">August 9, 2026</time>
                     <span className="hidden sm:block w-2 h-2 bg-wedding-gold rounded-full" />
                     <span>Restaurant Masaya</span>
                 </div>
 
                 {/* Countdown */}
-                <div className="mb-10 w-full max-w-3xl">
+                <div className="w-full max-w-3xl">
                     <Countdown />
                 </div>
-
-                <button
-                    onClick={scrollToRSVP}
-                    className="group relative px-8 py-4 bg-wedding-gold text-white font-bold rounded-full shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105 hover:shadow-wedding-gold/50"
-                >
-                    <span className="uppercase tracking-wider text-sm">Confirm your attendance</span>
-                </button>
             </div>
 
             <button

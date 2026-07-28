@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 
 const Countdown = () => {
-    // NOTE: This runs in the browser (Vite/React). "2026-08-08T15:00:00" is treated as local time.
-    // If you want it to be explicit UTC, use "2026-08-08T15:00:00Z".
-    const weddingDate = useMemo(() => new Date("2026-08-08T15:00:00"), []);
+    // NOTE: This runs in the browser (Vite/React). "2026-08-09T12:30:00" is treated as local time.
+    // If you want it to be explicit UTC, use "2026-08-09T12:30:00Z".
+    const weddingDate = useMemo(() => new Date("2026-08-09T12:30:00"), []);
 
     const calculateTimeLeft = () => {
         const now = new Date();

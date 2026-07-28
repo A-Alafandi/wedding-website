@@ -1,16 +1,18 @@
 import britt from '../../assets/bridesmaids/b.jpg';
-import khadija from '../../assets/bridesmaids/k.jpg';
 import josephine from '../../assets/bridesmaids/j.jpg';
 import viola from '../../assets/bridesmaids/v.jpg';
 import faten from '../../assets/bridesmaids/f.png';
 import asmaa from '../../assets/bridesmaids/S.png';
+import mouna from '../../assets/bridesmaids/m.jpeg';
+import nelly from '../../assets/bridesmaids/N.jpeg';
 
 import ahmad from '../../assets/Groomsman/a.jpg';
 import ammar from '../../assets/Groomsman/Ammar.jpeg';
 import wasim from '../../assets/Groomsman/w.png';
 import ilhan from '../../assets/Groomsman/I.png';
-import zakarya from '../../assets/Groomsman/Z.png';
+import zakarya from '../../assets/Groomsman/z.png';
 import omar1 from '../../assets/Groomsman/o1.png';
+
 
 
 const WeddingParty = () => {
@@ -45,11 +47,20 @@ const WeddingParty = () => {
             description: 'A talented photographer and total Swiftie who brings the best energy and detective-level intuition.',
             photo: britt,
         },
+    ];
+
+    const littleOnes = [
         {
-            name: 'Khadija Alkadri',
-            role: 'Bridesmaid',
-            description: 'The group’s secret weapon who is always there with the best advice and the most loyal heart.',
-            photo: khadija,
+            name: 'Muna Alafandi',
+            role: 'Flower Girl',
+            description: 'Our little ray of sunshine who will scatter petals and pure joy down the aisle before the big moment.',
+            photo: mouna,
+        },
+        {
+            name: 'Nelly Lopez',
+            role: 'Ring Bearer',
+            description: 'Entrusted with the most precious job of the day, she is sure to steal every heart in the room along the way.',
+            photo: nelly,
         },
     ];
 
@@ -97,7 +108,7 @@ const WeddingParty = () => {
         const hasPhoto = Boolean(person.photo);
 
         return (
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full w-[calc(50%-1rem)] sm:w-[calc(33.333%-1.334rem)] md:w-[calc(16.666%-1.667rem)]">
                 {/* Photo */}
                 <div className="rounded-3xl overflow-hidden shadow-2xl mb-6 aspect-[4/5] w-full group bg-gray-100">
                     {hasPhoto ? (
@@ -160,7 +171,7 @@ const WeddingParty = () => {
                         <div className="w-32 h-1 bg-wedding-gold mx-auto rounded-full" />
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-stretch">
+                    <div className="flex flex-wrap justify-center gap-8 items-stretch">
 
                     {bridesmaids.map((person, index) => (
                             <PersonCard key={`${person.name}-${index}`} person={person} />
@@ -169,7 +180,7 @@ const WeddingParty = () => {
                 </div>
 
                 {/* For the Groom */}
-                <div>
+                <div className="mb-20">
                     <div className="text-center mb-12">
                         <h3 className="text-3xl md:text-4xl font-serif text-wedding-gold mb-4">
                             For the Groom
@@ -177,9 +188,26 @@ const WeddingParty = () => {
                         <div className="w-32 h-1 bg-wedding-gold mx-auto rounded-full" />
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-stretch">
+                    <div className="flex flex-wrap justify-center gap-8 items-stretch">
 
                     {groomsmen.map((person, index) => (
+                            <PersonCard key={`${person.name}-${index}`} person={person} />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Little Ones */}
+                <div>
+                    <div className="text-center mb-12">
+                        <h3 className="text-3xl md:text-4xl font-serif text-wedding-gold mb-4">
+                            Little Ones
+                        </h3>
+                        <div className="w-32 h-1 bg-wedding-gold mx-auto rounded-full" />
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-8 items-stretch">
+
+                    {littleOnes.map((person, index) => (
                             <PersonCard key={`${person.name}-${index}`} person={person} />
                         ))}
                     </div>

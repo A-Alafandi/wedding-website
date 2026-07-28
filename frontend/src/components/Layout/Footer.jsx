@@ -45,13 +45,17 @@ const Footer = () => {
                     <div className="text-center md:text-right">
                         <h4 className="font-serif text-xl text-wedding-gold mb-4">Navigate</h4>
                         <nav className="flex flex-col gap-3 text-wedding-ivory/80">
-                            {['RSVP', 'Travel', 'FAQ'].map((item) => (
+                            {[
+                                { label: 'RSVP Closed', id: 'rsvp' },
+                                { label: 'Travel', id: 'travel' },
+                                { label: 'FAQ', id: 'faq' },
+                            ].map((item) => (
                                 <button
-                                    key={item}
-                                    onClick={() => scrollToSection(item.toLowerCase())}
+                                    key={item.id}
+                                    onClick={() => scrollToSection(item.id)}
                                     className="hover:text-white hover:translate-x-1 transition-all duration-300 text-center md:text-right"
                                 >
-                                    {item}
+                                    {item.label}
                                 </button>
                             ))}
                         </nav>
